@@ -1,7 +1,7 @@
 class06 R functions
 ================
 Darren Lam
-10/17/2019
+10/17/2019 
 
 This is my work from class06 in **BIMM 143**.
 
