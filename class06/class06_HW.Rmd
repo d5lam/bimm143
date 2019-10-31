@@ -1,0 +1,109 @@
+---
+title: "class06_HW"
+author: "Darren Lam"
+date: "10/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is my homework for BIMM 143 **Class 06**.
+
+# Can you improve this analysis code?
+```{r}
+library(bio3d)
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s1, chain="A", elety="CA")
+
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+## Step 1: Removing copy and paste errors
+```{r}
+library(bio3d)
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s3, chain="A", elety="CA") # s1 changed to s3 in argument
+
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+## Step 2: Simplify to work with a generic vector named “x”
+```{r}
+library(bio3d)
+  
+  x <- read.pdb("4AKE")
+  
+  x.chainA <- trim.pdb(x, chain = "A", elety = "CA")
+  
+  x.b <- x.chainA$atom$b
+  
+  plotb3(x.b, sse = x.chainA, typ = "l", ylab = "Bfactor")
+```
+
+## Step 3: Turn it into a function — plot.bfac()
+```{r}
+#plot.bfac allows you to plot the B-factor for each amino acid residue in a protein's A chain.
+
+plot.bfac <- function(x) {  # input is PDB accession number
+  
+  y <- read.pdb(x)  # PDB file is read
+  
+  # variables assigned to amino acid residues and associated B-factors
+  y.chainA <- trim.pdb(y, chain = "A", elety = "CA")
+  y.b <- y.chainA$atom$b
+  
+  # output is a line plot of the B-factors of each amino acid residue
+  plotb3(y.b, sse = y.chainA, typ = "l", ylab = "Bfactor", main = x)
+  
+}
+```
+
+## Step 4: Testing our new function, plot.bfac()!
+```{r}
+plot.bfac("4AKE")
+plot.bfac("1AKE")
+plot.bfac("1E4Y")
+```
+
+# Grading rubric:
+
+## Documentation:
+1 pt - comments on what are the inputs to the function. 
+
+1 pt - what the function does and how to use it.
+
+1 pt - what is the output of the function.
+
+## Code:
+2 pt - function behaves as desired, producing the correct output and follows assignment
+specifications.
+
+2 pt - the code is efficient meaning it uses best practices such as limiting calculation duplication.
+
+2 pt - code is readable, meaning best practices are used including proper indentation and whitespace used, relevant variable names, and organized in a logical manner.
+
+1 pt - function code and call executes and is working properly.

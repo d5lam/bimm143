@@ -1,0 +1,124 @@
+---
+title: "class06 R functions"
+author: "Darren Lam"
+date: "10/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is my work from class06 in **BIMM 143**.
+
+# Using code chunks
+
+```{r}
+# Demoing a code chunk
+
+plot(1:10, main = "Test plot")
+```
+
+
+# Practice reading files (again...)
+
+Reading comma-separated files
+
+```{r}
+read.csv("test1.txt", header = T)
+```
+
+Reading $-separated files
+
+```{r}
+read.table("test2.txt", sep = "$", header = T)
+```
+
+Reading space-separated files
+
+```{r}
+read.table("test3.txt", col.names = c("Col1", "Col2", "Col3"))
+```
+
+# Writing a simple function
+
+Writing an add function
+```{r}
+add <- function(x, y = 1) {x + y}
+```
+
+Playing with our add function
+```{r}
+add(1)
+add(x=1, y=4)
+add( c(1,2,3) )
+add( c(1,2,3), 4 )
+```
+
+# Writing a more interesting function
+
+Writing a rescale function
+
+```{r}
+rescale <- function(x) {
+   rng <-range(x)
+   (x - rng[1]) / (rng[2] - rng[1])
+}
+```
+
+**Test 1:** A small example where we know the answer
+
+```{r}
+rescale(1:10)
+```
+
+**Test 2:** How would we get our function to work here..?
+
+```{r}
+rescale( c(1,2,NA,3,10) )
+```
+
+**Solution:** We have our range function remove NA values by modifying the arguments
+
+```{r}
+rescale2 <- function(x) {
+   rng <-range(x, na.rm = T)
+   (x - rng[1]) / (rng[2] - rng[1])
+}
+
+rescale2( c(1,2,NA,3,10) )
+```
+
+# Section 2 of hands-on sheet
+
+Install the **bio3d** package for sequence and structure analysis
+
+```{r}
+#install.packages("bio3d")
+```
+
+```{r}
+library(bio3d)
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s3, chain="A", elety="CA")
+
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+## Documentation:
+**comments on what are the inputs to the function:**
+The inputs to the function are PDB files.
+
+**what the function does and how to use it:**
+This function 
