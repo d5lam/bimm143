@@ -1,0 +1,165 @@
+---
+title: "Class 14 Genome informatics II"
+author: "Darren Lam"
+date: "11/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Installing BiocManager and DESeq2
+```{r}
+# install.packages("BiocManager")
+# BiocManager::install()
+
+# For this class, you'll also need DESeq2:
+# BiocManager::install("DESeq2")
+```
+
+
+# Reading input dataset from hands-on worksheet
+
+```{r}
+# Our two datasets
+counts <- read.csv("airway_scaledcounts.csv", stringsAsFactors = FALSE)
+metadata <-  read.csv("airway_metadata.csv", stringsAsFactors = FALSE)
+```
+
+```{r}
+head(counts)
+
+metadata
+```
+
+Counting how many genes are in this dataset
+```{r}
+nrow(counts)
+```
+
+Counting how many experiments we have
+```{r}
+nrow(metadata)
+```
+
+# What are we doing with this data?
+> We want to compare the gene expression of the control and drug-treated experiments. To do so, we find the mean of each row (gene) from our counts dataset for control and for treated. Then, we create two new datasets containing this data.
+
+### Control experiments
+```{r}
+# creating an id from metadata for control columns in counts data
+control <- metadata[metadata[,"dex"]=="control",] 
+control$id
+
+# calculating the means of each gene expressed in control expts in counts data
+control.mean <- rowSums( counts[ ,control$id] )/4 
+names(control.mean) <- counts$ensgene
+
+head(control.mean)
+```
+
+### Treated experiments
+```{r}
+treated <- metadata[metadata[,"dex"]=="treated",]
+treated.mean <- rowSums( counts[ , treated$id] )/4
+names(treated.mean) <- counts$ensgene
+
+head(treated.mean)
+```
+
+### Combining our data for bookkeeping purposes
+```{r}
+meancounts <-  data.frame(control.mean, treated.mean)
+```
+
+
+# Analyzing our data
+
+Plotting our data
+```{r}
+plot(meancounts$control.mean, meancounts$treated.mean, log="xy")
+```
+
+Calculating the foldchange of our data
+```{r}
+meancounts$log2fc <- log2(meancounts[,"treated.mean"]/meancounts[,"control.mean"])
+head(meancounts)
+```
+
+Removing zero values
+```{r}
+# Identifying which points in the dataframe are zero valeus
+zero.vals <- which(meancounts[,1:2]==0, arr.ind=TRUE)
+head(zero.vals)
+
+# Identifying rows with zero values
+to.rm <- unique(zero.vals[,1])
+
+# Removing the rows with zero values from our dataset
+mycounts <- meancounts[-to.rm,] # new dataset: mycounts
+head(mycounts)
+```
+
+Counting how many genes are up- and downregulated in our dataset
+```{r}
+up.ind <- mycounts$log2fc > 2
+down.ind <- mycounts$log2fc < (-2)
+
+sum(up.ind)
+sum(down.ind)
+```
+
+Looking at all upregulated genes
+```{r}
+head (mycounts[up.ind,])
+```
+
+# Using DESeq2
+
+Loading DESeq2
+```{r}
+# library(DESeq2)
+# citation("DESeq2")
+```
+
+```{r}
+dds <- DESeqDataSetFromMatrix(countData=counts, 
+                              colData=metadata, 
+                              design=~dex, 
+                              tidy=TRUE)
+dds
+```
+
+```{r}
+dds <- DESeq(dds)
+
+res <- results(dds)
+res
+```
+
+```{r}
+summary(res)
+```
+
+# Creating a summary plot
+
+This volcano plot will show both the fold change and the p-value of each gene we screened through DESeq2
+
+```{r}
+plot( res$log2FoldChange, -log(res$padj))
+abline(v=c(2,-2), col="gray", lty=2)
+abline(h=-log(.05), col="gray", lty=2)
+```
+
+Adding color to our plot
+```{r}
+mycols <- rep("gray", nrow(res))
+mycols[abs(res$log2FoldChange) > 2] <- "blue"
+mycols[-log(res$padj) < -log(.05) & abs(res$log2FoldChange) > 2] <- "red"
+
+plot( res$log2FoldChange, -log(res$padj), col = mycols)
+abline(v=c(2,-2), col="gray", lty=2)
+abline(h=-log(.05), col="gray", lty=2)
+```
+
