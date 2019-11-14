@@ -163,3 +163,8 @@ abline(v=c(2,-2), col="gray", lty=2)
 abline(h=-log(.05), col="gray", lty=2)
 ```
 
+Save our results for next class
+```{r}
+write.csv(res, file="expression_results.csv")
+```
+

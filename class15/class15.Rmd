@@ -1,0 +1,59 @@
+---
+title: "Class 15 Pathway Analysis and Gene List Interpretation"
+author: "Darren Lam"
+date: "11/14/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Pathway analysis
+
+An enriched pathway results from the overlap between differentially expressed genes (DEGs) and known pathways (genesets)
+
+Limitations to pathway analysis include: geneset annotation bias, non-model organisms, ignoring post-transcriptional regulation, tissue-specific vatiations not annotated, size bias
+
+
+### Overview
+
+1) You have a list of genes/proteins of interest (and info on fold change, p-value, spectral counts, presence/absence)
+2) Translate to appropriate identifier (e.g. UniProt, Entrez, etc) using merge() or mapIds()
+
+# Hands-on worksheet
+
+Reading in our colData and countData
+```{r}
+
+colData = read.csv("GSE37704_metadata.csv", row.names = 1)
+head(colData)
+
+countData = read.csv("GSE37704_featurecounts.csv", row.names = 1)
+countData <- as.matrix(countData[,-1]) # removed first column so countData columns match colData rows
+head(countData)
+```
+
+Making sure our row labels in colData match our column labels in countData
+```{r}
+
+rownames(colData)
+colnames(countData)
+
+all (rownames(colData) == colnames(countData))
+```
+
+Removing zero-values from our dataset
+```{r}
+# Identifying which points in the dataframe are zero values
+zero.vals <- which(countData[,1:6]==0, arr.ind=TRUE)
+head(zero.vals)
+
+# Identifying rows with zero values
+to.rm <- unique(zero.vals[,1])
+
+# Removing the rows with zero values from our dataset
+mycounts <- countData[-to.rm,] # new dataset: mycounts
+head(mycounts)
+```
+
