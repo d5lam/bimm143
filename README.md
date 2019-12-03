@@ -8,7 +8,7 @@ This is my work from [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143
 - Class 06: [Writing R functions](https://github.com/d5lam/bimm143/blob/master/class06/class06.md)
 
 *Using R and Other Tools for Bioinformatics Analysis*
-- Class 08: [Machine learning](https://github.com/d5lam/bimm143/blob/master/class08/class08.md)
+- Class 08: [Machine learning: Clustering and PCA](https://github.com/d5lam/bimm143/blob/master/class08/class08.md)
 - Class 11: [Structural bioinformatics](https://github.com/d5lam/bimm143/blob/master/class11/class11.md)
 - Class 12: [Drug discovery and design](https://github.com/d5lam/bimm143/blob/master/class12/class12.md)
 - Class 14: [Transcriptomics and RNA-seq data analysis](https://github.com/d5lam/bimm143/blob/master/class14/class14.md)
