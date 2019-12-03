@@ -1,7 +1,5 @@
 class05: Data exploration and visualization in R
 ================
-Darren Lam
-2019-10-31
 
 ``` r
 ## Class05 Data visualization
