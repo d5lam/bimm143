@@ -3,7 +3,7 @@
 This is my work from [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F19/).
 
 ## Class index:
-*Introductory Material: Working with R*
+*Introductory Work with R*
 - Class 05: [Data exploration and visualization in R](https://github.com/d5lam/bimm143/blob/master/class05/class05.md)
 - Class 06: [Writing R functions](https://github.com/d5lam/bimm143/blob/master/class06/class06.md)
 
