@@ -2,7 +2,7 @@
 title: "Class 14 Genome informatics II"
 author: "Darren Lam"
 date: "11/12/2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -119,7 +119,7 @@ head (mycounts[up.ind,])
 
 Loading DESeq2
 ```{r}
-# library(DESeq2)
+library(DESeq2)
 # citation("DESeq2")
 ```
 
