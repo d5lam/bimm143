@@ -2,16 +2,16 @@
 title: "class06_HW"
 author: "Darren Lam"
 date: "10/22/2019"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This is my homework for BIMM 143 **Class 06**.
+This is my R function optimization practice for BIMM 143 **Class 06**.
 
-# Can you improve this analysis code?
+# Improving this analysis code
 ```{r}
 library(bio3d)
 s1 <- read.pdb("4AKE")  # kinase with drug
@@ -88,22 +88,3 @@ plot.bfac("4AKE")
 plot.bfac("1AKE")
 plot.bfac("1E4Y")
 ```
-
-# Grading rubric:
-
-## Documentation:
-1 pt - comments on what are the inputs to the function. 
-
-1 pt - what the function does and how to use it.
-
-1 pt - what is the output of the function.
-
-## Code:
-2 pt - function behaves as desired, producing the correct output and follows assignment
-specifications.
-
-2 pt - the code is efficient meaning it uses best practices such as limiting calculation duplication.
-
-2 pt - code is readable, meaning best practices are used including proper indentation and whitespace used, relevant variable names, and organized in a logical manner.
-
-1 pt - function code and call executes and is working properly.
