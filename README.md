@@ -1,13 +1,15 @@
 # Bioinformatics Class BIMM143
 
-This is my work from [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F19/).
+This is my repository for my [Bioinformatics class](https://bioboot.github.io/bimm143_F19/) from UC San Diego Fall 2019.
 
 ## Class index:
 *Introductory Work with R*
 
 - Class 05: [Data exploration and visualization in R](https://github.com/d5lam/bimm143/blob/master/class05/class05.md)
 
-- Class 06: [Writing R functions](https://github.com/d5lam/bimm143/blob/master/class06/class06.md)
+- Class 06: [R function writing](https://github.com/d5lam/bimm143/blob/master/class06/class06.md)
+
+- *Bonus: [R function optimization + worked example](https://github.com/d5lam/bimm143/blob/master/class06/class06_HW.md)*
 
 *Using R and Other Tools for Bioinformatics Analysis*
 
