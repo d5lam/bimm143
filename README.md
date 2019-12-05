@@ -1,6 +1,6 @@
 # Bioinformatics Class BIMM143
 
-This is my repository for my [Bioinformatics class](https://bioboot.github.io/bimm143_F19/) from UC San Diego Fall 2019.
+This is my repository for my [Bioinformatics class](https://bioboot.github.io/bimm143_F19/) from UC San Diego F19.
 
 ## Class index:
 *Introductory Work with R*
